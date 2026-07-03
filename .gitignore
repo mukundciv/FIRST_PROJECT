@@ -1,0 +1,8 @@
+serviceAccountKey.json
+studentos-backend/serviceAccountKey.json
+uploads/
+studentos-backend/uploads/
+__pycache__/
+.env
+venv/
+.venv
