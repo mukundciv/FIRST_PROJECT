@@ -3134,14 +3134,17 @@ function ScratchpadEditor({ user }) {
   };
 
   const handleTitleChange = (val) => {
+    // 1. Update React state immediately so input is responsive
+    setNotes(prev => prev.map(n => n.id === activeIdRef.current ? { ...n, title: val, updated_at: Date.now() } : n));
+    
+    // 2. Debounce database sync
     setSaved(false);
     if (timerRef.current) clearTimeout(timerRef.current);
     
     timerRef.current = setTimeout(() => {
       setNotes(prev => {
-        const updated = prev.map(n => n.id === activeIdRef.current ? { ...n, title: val, updated_at: Date.now() } : n);
-        syncToBackend(updated);
-        return updated;
+        syncToBackend(prev);
+        return prev;
       });
       setSaved(true);
     }, 1500);
