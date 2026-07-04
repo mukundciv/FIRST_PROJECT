@@ -4081,7 +4081,25 @@ function App() {
       return saved ? JSON.parse(saved) : null;
     } catch { return null; }
   });
-  const [page, setPage] = useState('dashboard');
+  const [page, setPage] = useState(() => {
+    try {
+      const hash = window.location.hash.replace('#/', '');
+      return hash || 'dashboard';
+    } catch { return 'dashboard'; }
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#/', '');
+      setPage(hash || 'dashboard');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateTo = (newPage) => {
+    window.location.hash = newPage === 'dashboard' ? '' : `/${newPage}`;
+  };
 
   const handleLogin = profile => {
     localStorage.setItem('studentos_user', JSON.stringify(profile));
@@ -4090,7 +4108,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('studentos_user');
     setUser(null);
-    setPage('dashboard');
+    navigateTo('dashboard');
   };
 
   if (!user) return <Login onLogin={handleLogin} />;
@@ -4104,25 +4122,25 @@ function App() {
     </div>
   );
 
-  if (page === 'todo')     return shell(<TodoPage onBack={() => setPage('dashboard')} user={user} />);
-  if (page === 'calendar') return shell(<AcademicCalendarPage user={user} onBack={() => setPage('dashboard')}/>);
-  if (page === 'gpa')      return shell(<GpaPage onBack={() => setPage('dashboard')}/>);
-  if (page === 'noticeboard') return shell(<NoticeboardPage user={user} onBack={() => setPage('dashboard')}/>);
-  if (page === 'private') return shell(<PrivateSpaceWorkspace user={user} onBack={() => setPage('dashboard')}/>);
-  if (page === 'dept-vault') return shell(<DepartmentVaultPage user={user} onBack={() => setPage('dashboard')}/>);
-  if (page === 'dept-vault-upload') return shell(<DepartmentVaultPage user={user} onBack={() => setPage('dashboard')} autoUpload={true}/>);
-  if (page === 'admin-notes') return shell(<AdminNoteApprovalPage user={user} onBack={() => setPage('dashboard')}/>);
+  if (page === 'todo')     return shell(<TodoPage onBack={() => navigateTo('dashboard')} user={user} />);
+  if (page === 'calendar') return shell(<AcademicCalendarPage user={user} onBack={() => navigateTo('dashboard')}/>);
+  if (page === 'gpa')      return shell(<GpaPage onBack={() => navigateTo('dashboard')}/>);
+  if (page === 'noticeboard') return shell(<NoticeboardPage user={user} onBack={() => navigateTo('dashboard')}/>);
+  if (page === 'private') return shell(<PrivateSpaceWorkspace user={user} onBack={() => navigateTo('dashboard')}/>);
+  if (page === 'dept-vault') return shell(<DepartmentVaultPage user={user} onBack={() => navigateTo('dashboard')}/>);
+  if (page === 'dept-vault-upload') return shell(<DepartmentVaultPage user={user} onBack={() => navigateTo('dashboard')} autoUpload={true}/>);
+  if (page === 'admin-notes') return shell(<AdminNoteApprovalPage user={user} onBack={() => navigateTo('dashboard')}/>);
   return shell(
     <Dashboard
       user={user}
-      onOpenTodo={()=>setPage('todo')}
-      onOpenGpa={()=>setPage('gpa')}
-      onOpenCalendar={()=>setPage('calendar')}
-      onOpenNoticeboard={()=>setPage('noticeboard')}
-      onOpenPrivate={()=>setPage('private')}
-      onBrowseNotes={()=>setPage('dept-vault')}
-      onUploadNote={()=>setPage('dept-vault-upload')}
-      onOpenAdminNotes={()=>setPage('admin-notes')}
+      onOpenTodo={()=>navigateTo('todo')}
+      onOpenGpa={()=>navigateTo('gpa')}
+      onOpenCalendar={()=>navigateTo('calendar')}
+      onOpenNoticeboard={()=>navigateTo('noticeboard')}
+      onOpenPrivate={()=>navigateTo('private')}
+      onBrowseNotes={()=>navigateTo('dept-vault')}
+      onUploadNote={()=>navigateTo('dept-vault-upload')}
+      onOpenAdminNotes={()=>navigateTo('admin-notes')}
     />
   );
 }
