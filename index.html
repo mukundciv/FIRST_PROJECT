@@ -232,7 +232,7 @@ function ConfirmModal({ message, onConfirm, onCancel }) {
 /* ─── TODO LIST COMPONENT ────────────────────────────────────────────────── */
 
 const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE = IS_LOCAL ? 'http://localhost:8001' : 'https://studentos-backend.onrender.com';
+const API_BASE = IS_LOCAL ? 'http://localhost:8001' : 'https://vnitstudenttos-backend.onrender.com';
 
 const TodoList = React.forwardRef(function TodoList({ user }, ref) {
   const [tasks,       setTasks]       = useState([]);
