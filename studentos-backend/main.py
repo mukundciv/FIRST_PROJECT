@@ -12,6 +12,7 @@ from googleapiclient.http import MediaIoBaseUpload
 import io
 from fastapi.staticfiles import StaticFiles
 import uuid
+import json
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -46,6 +47,26 @@ CREDENTIALS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ser
 COLLECTION_NAME  = 'studentos_user_data'
 
 def get_google_clients():
+    # 1. Try loading from environment variable (secure production method)
+    firebase_creds_env = os.environ.get("FIREBASE_CREDENTIALS")
+    if firebase_creds_env:
+        try:
+            creds_info = json.loads(firebase_creds_env)
+            # Fix double-escaped newlines commonly caused by cloud dashboard environment editors
+            if "private_key" in creds_info:
+                creds_info["private_key"] = creds_info["private_key"].replace("\\n", "\n")
+                
+            creds = service_account.Credentials.from_service_account_info(
+                creds_info,
+                scopes=['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/drive'],
+            )
+            db_client = firestore.Client(credentials=creds, project=creds.project_id, database="studentos")
+            drive_client = build('drive', 'v3', credentials=creds)
+            return db_client, drive_client
+        except Exception as e:
+            print(f"Error initializing from FIREBASE_CREDENTIALS env var: {e}")
+
+    # 2. Fallback to local file (for local development)
     if not os.path.exists(CREDENTIALS_PATH):
         raise FileNotFoundError(
             f'serviceAccountKey.json not found at {CREDENTIALS_PATH}. '
