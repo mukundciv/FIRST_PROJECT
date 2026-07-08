@@ -17,10 +17,19 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+# Load local .env file if it exists (for local development)
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(env_path):
+    with open(env_path) as f:
+        for line in f:
+            if "=" in line and not line.strip().startswith("#"):
+                key, val = line.strip().split("=", 1)
+                os.environ[key.strip()] = val.strip()
+
 cloudinary.config(
-  cloud_name = "xfzgr75u",
-  api_key = "615299476241536",
-  api_secret = "peIaDoKMtPsNORo22Gy1VSkeKcg",
+  cloud_name = os.environ.get("CLOUDINARY_CLOUD_NAME"),
+  api_key = os.environ.get("CLOUDINARY_API_KEY"),
+  api_secret = os.environ.get("CLOUDINARY_API_SECRET"),
   secure = True
 )
 
