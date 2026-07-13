@@ -461,7 +461,6 @@ const TodoList = React.forwardRef(function TodoList({ user }, ref) {
                       &times;
                     </button>
                   </div>
-                  <span style={{ fontSize: '0.58rem', color: '#5b6080', fontWeight: 500 }}>Created {fmtDate(t.createdAt)}</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                     <button onClick={e => { e.stopPropagation(); setModal({ type: 'edit', task: t }); }} title="Edit task"
                       style={{ width: '1.75rem', height: '1.75rem', borderRadius: '0.4rem', border: '1px solid rgba(108,99,255,0.3)', background: 'rgba(108,99,255,0.08)', color: '#a78bfa', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.82rem', transition: 'background 0.18s' }}
@@ -477,7 +476,10 @@ const TodoList = React.forwardRef(function TodoList({ user }, ref) {
 
                 {/* Row 2 — Label + Title */}
                 <div>
-                  <p style={{ margin: 0, fontSize: '0.55rem', fontWeight: 700, color: '#5b6080', textDecoration: 'underline', textUnderlineOffset: '2px', textTransform: 'uppercase', letterSpacing: '0.09em' }}>TO-DO list</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <p style={{ margin: 0, fontSize: '0.55rem', fontWeight: 700, color: '#5b6080', textDecoration: 'underline', textUnderlineOffset: '2px', textTransform: 'uppercase', letterSpacing: '0.09em' }}>TO-DO list</p>
+                    <span style={{ fontSize: '0.58rem', color: '#5b6080', fontWeight: 500 }}>Created {fmtDate(t.createdAt)}</span>
+                  </div>
                   <h3 style={{ margin: '0.15rem 0 0', fontSize: '0.9rem', fontWeight: 700, color: t.completed ? '#5b6080' : '#e8eaf8', lineHeight: 1.3, display: 'flex', alignItems: 'center', gap: '0.3rem', textDecoration: t.completed ? 'line-through' : 'none' }}>
                     {t.bookmarked && <span style={{ color: '#fbbf24', fontSize: '0.78rem' }}>&#9733;</span>}
                     {t.title}
@@ -494,7 +496,7 @@ const TodoList = React.forwardRef(function TodoList({ user }, ref) {
                 )}
 
                 {/* Row 4 — Deadline + Status */}
-                <div style={{ marginTop: '0.25rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(108,99,255,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                <div className="todo-deadline-row" style={{ marginTop: '0.25rem', paddingTop: '0.5rem', borderTop: '1px solid rgba(108,99,255,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
                   <div>
                     <p style={{ margin: 0, fontSize: '0.53rem', fontWeight: 700, color: '#5b6080', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.18rem' }}>Deadline</p>
                     <p style={{ margin: 0, fontSize: '0.68rem', color: '#7b82aa', fontWeight: 500 }}>&#128197; {fmtDL(t.deadline)}</p>
@@ -4354,6 +4356,15 @@ root.render(<App/>);
     }
     #top-navbar {
       position: sticky !important;
+    }
+    .todo-deadline-row {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 0.6rem !important;
+    }
+    .todo-deadline-row > div:last-child {
+      justify-content: space-between !important;
+      width: 100% !important;
     }
   }
 </style>
