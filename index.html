@@ -2315,7 +2315,7 @@ function AcademicCalendar({ user }) {
   const ifrStyle = { display:'block', width:'100%', height:'100%', border:'none' };
 
   return (
-    <div style={S.page}>
+    <div className="cal-page-wrapper" style={S.page}>
       {/* ── Pulsing dot keyframes ── */}
       <style>{`
         @keyframes calPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.85)} }
@@ -2361,7 +2361,7 @@ function AcademicCalendar({ user }) {
             <span style={{ fontSize:'0.68rem', fontWeight:900, color:'rgba(245,158,11,0.85)', letterSpacing:'0.1em', textTransform:'uppercase' }}>Admin Control Panel</span>
             <div style={S.adminPill}>ADMIN</div>
           </div>
-          <div style={S.grid2}>
+          <div className="cal-grid2" style={S.grid2}>
             <div>
               <label style={S.lbl}>Session Term</label>
               <select value={term} onChange={e => setTerm(e.target.value)} style={S.sel}>
@@ -2421,7 +2421,7 @@ function AcademicCalendar({ user }) {
       </div>
 
       {/* Viewer */}
-      <div ref={viewerRef} style={S.viewer}>
+      <div ref={viewerRef} className="cal-viewer-container" style={S.viewer}>
         {/* Scrollable drag-to-pan wrapper container */}
         <div 
           ref={scrollRef}
@@ -4365,6 +4365,17 @@ root.render(<App/>);
     .todo-deadline-row > div:last-child {
       justify-content: space-between !important;
       width: 100% !important;
+    }
+    
+    /* Academic Calendar mobile adjustments */
+    .cal-page-wrapper {
+      padding: 1rem 0.5rem !important;
+    }
+    .cal-viewer-container {
+      height: 450px !important;
+    }
+    .cal-grid2 {
+      grid-template-columns: 1fr !important;
     }
   }
 </style>
