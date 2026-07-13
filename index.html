@@ -2455,6 +2455,7 @@ function AcademicCalendar({ user }) {
           {documentUrl && (documentUrl.endsWith('.jpg') || documentUrl.endsWith('.png') || documentUrl.endsWith('.jpeg')) ? (
             <img 
               ref={iframeRef}
+              className="cal-document"
               src={documentUrl}
               alt="VNIT Academic Calendar"
               style={{ 
@@ -2469,6 +2470,7 @@ function AcademicCalendar({ user }) {
           ) : (
             <iframe 
               ref={iframeRef}
+              className="cal-document"
               src={documentUrl}
               title="VNIT Academic Calendar Document" 
               style={{ 
@@ -4376,6 +4378,9 @@ root.render(<App/>);
     }
     .cal-grid2 {
       grid-template-columns: 1fr !important;
+    }
+    .cal-document {
+      min-width: 650px !important;
     }
   }
 </style>
