@@ -750,7 +750,7 @@ function Login({ onLogin }) {
         'radial-gradient(ellipse at 20% 30%, rgba(108,99,255,0.16) 0%, transparent 55%), ' +
         'radial-gradient(ellipse at 80% 70%, rgba(99,179,255,0.1) 0%, transparent 55%)',
     }}>
-      <div style={{
+      <div className="login-card" style={{
         width: '100%', maxWidth: '440px',
         background: 'rgba(22,25,41,0.94)',
         border: '1px solid rgba(108,99,255,0.28)',
@@ -792,7 +792,7 @@ function Login({ onLogin }) {
         </div>
 
         {/* ── Side-by-side Google pill buttons ── */}
-        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem' }}>
+        <div className="login-flex-row" style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem' }}>
 
           {/* Sign In */}
           <button
@@ -842,7 +842,7 @@ function Login({ onLogin }) {
         )}
 
         {/* Info badges */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem' }}>
+        <div className="login-flex-row" style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem' }}>
           <div style={{
             flex: 1, padding: '0.6rem 0.75rem', borderRadius: '0.75rem',
             background: 'rgba(108,99,255,0.06)', border: '1px solid rgba(108,99,255,0.14)',
@@ -4381,6 +4381,16 @@ root.render(<App/>);
     }
     .cal-document {
       min-width: 650px !important;
+    }
+    
+    /* Login Page mobile adjustments */
+    .login-card {
+      padding: 1.5rem 1.25rem !important;
+      border-radius: 1.25rem !important;
+    }
+    .login-flex-row {
+      flex-direction: column !important;
+      gap: 0.65rem !important;
     }
   }
 </style>
